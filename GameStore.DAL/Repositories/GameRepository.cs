@@ -21,12 +21,31 @@ namespace GameStore.DAL.Repositories
         {
             return await _context.Games.ToListAsync();
         }
-
         public async Task<Game> GetAsync(int id)
         {
             return await _context.Games.FirstOrDefaultAsync(t => t.Id == id);
         }
+        public async Task<Game> AddAsync(Game game)
+        {
+            if (game is null)
+            {
+                throw new ArgumentNullException(nameof(game));
+            }
+            await _context.Games.AddAsync(game);
+            return game;
+        }
+        public async Task<bool> RemoveAsync(int id)
+        {
+            bool isRemoved = false;
+            var game = await _context.Games.FirstOrDefaultAsync(t => t.Id == id);
+            if (game != null)
+            {
+                _context.Games.Remove(game);
+                isRemoved = true;
+            }
+            return isRemoved;
 
+        }
         public virtual void Dispose(bool disposing)
         {
             if (!this._disposed)
@@ -38,7 +57,6 @@ namespace GameStore.DAL.Repositories
             }
             this._disposed = true;
         }
-
         public void Dispose()
         {
             Dispose(true);

@@ -9,5 +9,7 @@ namespace GameStore.DAL.Interfaces
     {
         Task<ICollection<Game>> GetAllAsync();
         Task<Game> GetAsync(int id);
+        Task<Game> AddAsync(Game game);
+        Task<bool> RemoveAsync(int id);
     }
 }
