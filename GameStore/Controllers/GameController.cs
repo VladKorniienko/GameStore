@@ -43,6 +43,25 @@ namespace GameStore.Controllers
 
             return Ok(gameViewModel);
         }
+        //POST: api/games
+        [HttpPost]
+        public async Task<IActionResult> AddGame(GameViewModel gameViewModel)
+        {
+            if (gameViewModel is null)
+            {
+                throw new System.ArgumentNullException(nameof(gameViewModel));
+            }
 
+            var gameDto = _mapper.Map<GameDto>(gameViewModel);
+            var result = await _gameService.AddAsync(gameDto);
+            return Ok(result);
+        }
+        //DELETE: api/games/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteGame(int id)
+        {
+            var result = await _gameService.Remove(id);
+            return Ok(result);
+        }
     }
 }
