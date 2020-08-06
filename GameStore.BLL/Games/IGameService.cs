@@ -9,6 +9,8 @@ namespace GameStore.BLL.Games
         Task<ICollection<GameDto>> GetAllAsync();
         Task<GameDto> GetAsync(int id);
         Task<Game> AddAsync(GameDto game);
+        Task<bool> AddGameGenreAsync(int gameId, int genreId);
+        Task<GameDto> UpdateAsync(GameDto gameDto);
         Task<bool> Remove(int id);
     }
 }

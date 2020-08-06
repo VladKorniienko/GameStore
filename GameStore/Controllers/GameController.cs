@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GameStore.BLL.Games;
 using GameStore.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -45,7 +46,8 @@ namespace GameStore.Controllers
         }
         //POST: api/games
         [HttpPost]
-        public async Task<IActionResult> AddGame(GameViewModel gameViewModel)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> PostGame(GameViewModel gameViewModel)
         {
             if (gameViewModel is null)
             {
@@ -56,12 +58,32 @@ namespace GameStore.Controllers
             var result = await _gameService.AddAsync(gameDto);
             return Ok(result);
         }
+        //POST: api/games/5/1
+        [HttpPost("{gameId:int}/genres/{genreId:int}")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> PostGameGenre(int gameId, int genreId)
+        {
+            var result = await _gameService.AddGameGenreAsync(gameId, genreId);
+            if (result == true)
+                return Ok(result);
+            else
+                return BadRequest();
+        }
+        //PUT: api/games
+        [HttpPut]
+        public async Task<IActionResult> PutGame(GameViewModel gameViewModel)
+        {
+            return Ok(await _gameService.UpdateAsync(_mapper.Map<GameDto>(gameViewModel)));
+        }
         //DELETE: api/games/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGame(int id)
         {
             var result = await _gameService.Remove(id);
-            return Ok(result);
+            if (result == true)
+                return Ok();
+            else
+                return BadRequest("Can`t find a game with this Id");
         }
     }
 }
