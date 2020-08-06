@@ -1,4 +1,6 @@
-﻿namespace GameStore.ViewModels
+﻿using System.Collections.Generic;
+
+namespace GameStore.ViewModels
 {
     public class GameViewModel
     {
@@ -8,5 +10,7 @@
         public decimal Price { get; set; }
         public bool IsActiveOffer { get; set; }
         public string ImageUrl { get; set; }
-    }
+
+        public List<GenreViewModel> Genres {get;set;}
+}
 }
