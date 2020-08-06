@@ -1,4 +1,5 @@
 ﻿using GameStore.BLL.Games;
+using GameStore.BLL.Genres;
 using GameStore.DAL.DbContext;
 using GameStore.DAL.Interfaces;
 using GameStore.DAL.Repositories;
@@ -19,12 +20,15 @@ namespace GameStore
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IGameRepository, GameRepository>();
+            services.AddScoped<IGenreRepository, GenreRepository>();
+
 
             return services;
         }
         public static IServiceCollection ConfigureBll(this IServiceCollection services)
         {
             services.AddScoped<IGameService, GameService>();
+            services.AddScoped<IGenreService, GenreService>();
 
             return services;
         }
