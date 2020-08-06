@@ -9,6 +9,7 @@ namespace GameStore.DAL.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private IGameRepository _gameRepository;
+        private IGenreRepository _genreRepository;
         private bool _disposed = false;
         public UnitOfWork(GameStoreContext context)
         {
@@ -21,7 +22,14 @@ namespace GameStore.DAL.UnitOfWork
         {
             get
             {
-                return _gameRepository = _gameRepository ?? new GameRepository(Context);
+                return _gameRepository ??= new GameRepository(Context);
+            }
+        }
+        public IGenreRepository GenreRepository
+        {
+            get
+            {
+                return _genreRepository??=new GenreRepository(Context);
             }
         }
         public async Task SaveAsync()
@@ -36,6 +44,7 @@ namespace GameStore.DAL.UnitOfWork
                 {
                     Context?.Dispose();
                     GameRepository?.Dispose();
+                    GenreRepository?.Dispose();
                 }
             }
             this._disposed = true;

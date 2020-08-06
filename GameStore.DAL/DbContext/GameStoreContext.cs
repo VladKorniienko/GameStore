@@ -7,6 +7,9 @@ namespace GameStore.DAL.DbContext
     public class GameStoreContext : Microsoft.EntityFrameworkCore.DbContext
     {
         public DbSet<Game> Games { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<GameGenre> GameGenres { get; set; }
+
 
         public GameStoreContext(DbContextOptions<GameStoreContext> options) : base(options)
         {
@@ -14,7 +17,8 @@ namespace GameStore.DAL.DbContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            modelBuilder.Entity<GameGenre>()
+                .HasKey(gg => new { gg.GameId, gg.GenreId });
             modelBuilder.Entity<Game>().Property(g => g.Name).IsRequired();
             modelBuilder.Entity<Game>().Property(g => g.Description).IsRequired();
             modelBuilder.Entity<Game>()
