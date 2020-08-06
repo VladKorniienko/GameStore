@@ -11,7 +11,7 @@ namespace GameStore.DAL.Repositories
     public class GenreRepository : IGenreRepository
     {
         private readonly GameStoreContext _context;
-        private bool _disposed;
+        private bool _disposed = false;
 
         public GenreRepository(GameStoreContext context)
         {
