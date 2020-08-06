@@ -19,11 +19,11 @@ namespace GameStore.DAL.Repositories
 
         public async Task<ICollection<Game>> GetAllAsync()
         {
-            return await _context.Games.Include(g => g.GameGenres).ThenInclude(gg => gg.Genre).ToListAsync();
+            return await _context.Games.Include(g => g.GameGenres).ThenInclude(gg => gg.Genre).AsNoTracking().ToListAsync();
         }
         public async Task<Game> GetAsync(int id)
         {
-            return await _context.Games.Include(g => g.GameGenres).ThenInclude(gg => gg.Genre).FirstOrDefaultAsync(g => g.Id == id);
+            return await _context.Games.Include(g => g.GameGenres).ThenInclude(gg => gg.Genre).AsNoTracking().FirstOrDefaultAsync(g => g.Id == id);
         }
         public async Task<bool> AddGameGenreAsync(int gameId, int genreId)
         {
@@ -52,6 +52,11 @@ namespace GameStore.DAL.Repositories
             }
             await _context.Games.AddAsync(game);
             return game;
+        }
+        public void Update(Game game)
+        {
+            if (game != null)
+                _context.Update(game);
         }
         public async Task<bool> RemoveAsync(int id)
         {
